@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">GiphyApp</string>
+    <string name="not_loaded">"Unable to load gif"</string>
+</resources>
