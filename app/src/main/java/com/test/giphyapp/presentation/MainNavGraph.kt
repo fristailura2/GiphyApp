@@ -4,7 +4,7 @@ import androidx.navigation.NavType
 import com.test.giphyapp.presentation.base.NavigationEntity
 import com.test.giphyapp.presentation.base.NavigationParam
 
-object NavGraph {
+object MainNavGraph {
     object Main: NavigationEntity(
         name = "main"
     ) {

@@ -7,7 +7,7 @@ import androidx.paging.cachedIn
 import androidx.paging.map
 import com.test.giphyapp.converters.toGifFullModel
 import com.test.giphyapp.data.repository.GifRepository
-import com.test.giphyapp.presentation.NavGraph
+import com.test.giphyapp.presentation.MainNavGraph
 import com.test.giphyapp.presentation.base.Event
 import com.test.giphyapp.presentation.base.NavigationRoute
 import com.test.giphyapp.presentation.base.NavigationViewModel
@@ -16,8 +16,10 @@ import com.test.giphyapp.presentation.utils.NetworkStatus
 import com.test.giphyapp.presentation.utils.NetworkStatusTracker
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.supervisorScope
 import javax.inject.Inject
 
 @HiltViewModel
@@ -28,12 +30,12 @@ class DetailsViewModel @Inject constructor(
 ) : NavigationViewModel<DetailsState, DetailEvent, DetailsViewModel.Route>(DetailsState()) {
 
     private val startIndex: Int
-        get() = NavGraph.Details.getIntArg(savedStateHandle, NavGraph.Details.indexParam)
+        get() = MainNavGraph.Details.getIntArg(savedStateHandle, MainNavGraph.Details.indexParam)
     private val searchText: String
-        get() = NavGraph.Details.getArg(savedStateHandle, NavGraph.Details.searchTextParam)
+        get() = MainNavGraph.Details.getArg(savedStateHandle, MainNavGraph.Details.searchTextParam)
 
-    override val state: Flow<DetailsState> =
-        internalState
+    override val state: Flow<DetailsState>
+        get() = internalState
 
     init {
         viewModelScope.launch {

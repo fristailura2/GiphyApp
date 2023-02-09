@@ -31,6 +31,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContent {
             AppEntryPoint(imageLoader)
         }
@@ -69,7 +70,7 @@ fun Navigation(modifier: Modifier = Modifier) {
     NavHost(
         modifier = modifier,
         navController = controller,
-        startDestination = NavGraph.Main.getFullRoute(),
+        startDestination = MainNavGraph.Main.getFullRoute(),
         builder = {
             detailsScreen(controller)
             mainScreen(controller)
@@ -78,15 +79,15 @@ fun Navigation(modifier: Modifier = Modifier) {
 }
 
 fun NavGraphBuilder.mainScreen(controller: NavController) {
-    composable(NavGraph.Main) {
+    composable(MainNavGraph.Main) {
         val viewModel: MainViewModel = hiltViewModel(it)
         MainScreen(viewModel = viewModel)
         viewModel.SetUpNavigation(it) { route ->
             when (route) {
                 is MainViewModel.Route.Details -> {
-                    val res = NavGraph.Details.getParamPathBuilder().apply {
-                        addParam(NavGraph.Details.indexParam to route.itemIndex)
-                        addParam(NavGraph.Details.searchTextParam to route.requestText)
+                    val res = MainNavGraph.Details.getParamPathBuilder().apply {
+                        addParam(MainNavGraph.Details.indexParam to route.itemIndex)
+                        addParam(MainNavGraph.Details.searchTextParam to route.requestText)
                     }.build()
                     controller.navigate(res)
                 }
@@ -97,7 +98,7 @@ fun NavGraphBuilder.mainScreen(controller: NavController) {
 
 fun NavGraphBuilder.detailsScreen(controller: NavController) {
     composable(
-        NavGraph.Details,
+        MainNavGraph.Details,
     ) {
         val viewModel: DetailsViewModel = hiltViewModel(it)
         DetailsScreen(viewModel = viewModel)
